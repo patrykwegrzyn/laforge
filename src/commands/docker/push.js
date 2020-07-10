@@ -1,21 +1,47 @@
-const { Command, flags } = require('@oclif/command')
+const util = require("util")
 
-class Container extends Command {
+const { Command, flags } = require('@oclif/command')
+const { getLastCommit } = require("git-last-commit")
+
+const { execShellCommand } = require("../../utils")
+const service = require("../../service")
+
+const lastCommit = util.promisify(getLastCommit)
+
+class Push extends Command {
   async run() {
-    const { flags } = this.parse(Container)
-    const name = flags.name || 'world'
-    this.log(`hello ${name} from ./src/commands/hello.js`)
+    const { flags } = this.parse(Push)
+    console.log("Push -> run -> flags", flags)
+    let { name, tag, short } = flags
+    if (!name) {
+      name = service.name
+    }
+    if (!tag) {
+      const commit = await lastCommit()
+      let { hash } = commit;
+      if (short) {
+        hash = commit.shortHash
+      }
+      tag = hash
+    }
+    const cmd = `docker push ${name}:${tag}`
+    const res = await execShellCommand(`docker push ${name}:${tag}`)
+    this.log("Push -> run -> res", res)
+
+    this.log(`cmd ${cmd}`)
   }
 }
 
-Container.description = `Describe the command here
+Push.description = `Describe the command here
 ...
-Extra documentation goes here
-`
+      Extra documentation goes here
+      `
 
-Container.flags = {
-  container: flags.string({ char: 'c', description: 'Container container' }),
+Push.flags = {
 
+  name: flags.string({ char: 'n', description: 'Name of Container image' }),
+  tag: flags.string({ char: 't', description: 'Container tag' }),
+  short: flags.boolean({ char: 's', description: "Provide short version of git commit hash" }),
 }
 
-module.exports = Container
+module.exports = Push

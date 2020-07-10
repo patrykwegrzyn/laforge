@@ -4,6 +4,7 @@ const { Command, flags } = require('@oclif/command')
 const { getLastCommit } = require("git-last-commit")
 
 const { execShellCommand } = require("../../utils")
+const service = require("../../service")
 
 const lastCommit = util.promisify(getLastCommit)
 
@@ -11,28 +12,34 @@ class Build extends Command {
   async run() {
     const { flags } = this.parse(Build)
     console.log("Build -> run -> flags", flags)
-    const context = flags.context || "."
-    let tag = flags.tag;
+    let { name, tag, context = ".", short } = flags
+    if (!name) {
+      name = service.name
+    }
     if (!tag) {
       const commit = await lastCommit()
       let { hash } = commit;
-      if (flags.short) {
+      if (short) {
         hash = commit.shortHash
       }
       tag = hash
     }
-    console.log("Build -> run -> tag", tag)
-    await execShellCommand(`docker build -t ${tag} ${context}`)
-    this.log(`tag ${tag} ${context} ${__dirname}`)
+    const cmd = `docker build -t ${name}:${tag} ${context}`
+    const res = await execShellCommand(`docker build -t ${name}:${tag} ${context}`)
+    this.log("Build -> run -> res", res)
+
+    this.log(`cmd ${cmd}`)
   }
 }
 
 Build.description = `Describe the command here
 ...
-Extra documentation goes here
-`
+      Extra documentation goes here
+      `
 
 Build.flags = {
+
+  name: flags.string({ char: 'n', description: 'Name of Container image' }),
   tag: flags.string({ char: 't', description: 'Container tag' }),
   short: flags.boolean({ char: 's', description: "Provide short version of git commit hash" }),
   context: flags.string({ char: "c", description: "Docker context default ." })

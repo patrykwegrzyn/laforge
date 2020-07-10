@@ -1,0 +1,12 @@
+registry: rg.fr-par.scw.cloud/mindsettdev
+
+name: laforge # name of the service
+profiles:
+  default:
+    protocol: TCP
+    targetPort: 3000 # port the container exposes
+    port: 80
+    memory: 0.15G # minimum available memory necessary to schedule the service
+    cpu: 0.1 # minimum available cpu necessary to schedule the service
+    max_memory: 0.2G
+    max_cpu: 0.2
