@@ -6,6 +6,7 @@ const { getLastCommit } = require("git-last-commit")
 const { execShellCommand } = require("../../utils")
 const service = require("../../service")
 
+const { registry } = service;
 const lastCommit = util.promisify(getLastCommit)
 
 class Push extends Command {
@@ -24,8 +25,11 @@ class Push extends Command {
       }
       tag = hash
     }
-    const cmd = `docker push ${name}:${tag}`
-    const res = await execShellCommand(`docker push ${name}:${tag}`)
+    const img = `${registry}/${name}:${tag}`
+
+    console.log("Push -> run -> img", img)
+    const cmd = `docker push ${img}`
+    const res = await execShellCommand(cmd)
     this.log("Push -> run -> res", res)
 
     this.log(`cmd ${cmd}`)

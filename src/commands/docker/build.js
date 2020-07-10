@@ -5,7 +5,7 @@ const { getLastCommit } = require("git-last-commit")
 
 const { execShellCommand } = require("../../utils")
 const service = require("../../service")
-
+const { registry } = service;
 const lastCommit = util.promisify(getLastCommit)
 
 class Build extends Command {
@@ -24,8 +24,9 @@ class Build extends Command {
       }
       tag = hash
     }
-    const cmd = `docker build -t ${name}:${tag} ${context}`
-    const res = await execShellCommand(`docker build -t ${name}:${tag} ${context}`)
+    const img = `${registry}/${name}:${tag}`
+    const cmd = `docker build -t ${img} ${context}`
+    const res = await execShellCommand(cmd)
     this.log("Build -> run -> res", res)
 
     this.log(`cmd ${cmd}`)

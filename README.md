@@ -1,6 +1,6 @@
 # laforge
 
-## Your k8s build Chief Engineer
+## Your k8s & Docker Chief Engineer
 
 
 ![Kiku](./assets/logo.png)
@@ -21,6 +21,7 @@ max_cpu: 0.2
 ```
 
 
+## Docker stuff
 ```
 USAGE
   $ laforge docker

@@ -1,4 +1,4 @@
-registry: registry.space
+registry: rg.fr-par.scw.cloud/mindsettdev
 name: laforge
 protocol: TCP
 targetPort: 3000
