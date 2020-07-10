@@ -9,8 +9,8 @@
 USAGE
   $ laforge docker
 COMMANDS
-  docker:build  Describe the command here
-  docker:push   Describe the command here
+  docker:build  Build image
+  docker:push   Push image
 ```
 
 ```
@@ -19,9 +19,9 @@ USAGE
 
 OPTIONS
   -c, --context=context  Docker context default .
-  -n, --name=name        Name of Container image
+  -n, --name=name        Overwrite (service.yaml) name of container 
   -s, --short            Provide short version of git commit hash
-  -t, --tag=tag          Container tag
+  -t, --tag=tag          Container tag instead of git hash
 ```
 
 ```
@@ -29,7 +29,7 @@ USAGE
   $ laforge docker:push
 
 OPTIONS
-  -n, --name=name  Name of Container image
+  -n, --name=name  Overwrite (service.yaml) name of container
   -s, --short      Provide short version of git commit hash
-  -t, --tag=tag    Container tag
+  -t, --tag=tag    Container tag instead of git hash
 ```
