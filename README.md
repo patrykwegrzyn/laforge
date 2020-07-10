@@ -5,6 +5,22 @@
 
 ![Kiku](./assets/logo.png)
 
+
+#### example `setvice.yaml`
+
+```
+registry: registry.space
+name: laforge
+protocol: TCP
+targetPort: 3000
+port: 80
+memory: 0.15G
+cpu: 0.1
+max_memory: 0.2G
+max_cpu: 0.2
+```
+
+
 ```
 USAGE
   $ laforge docker
