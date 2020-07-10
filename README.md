@@ -1,2 +1,6 @@
 # laforge
-Your  k8s Chief Engineer
+
+## Your k8s build Chief Engineer
+
+
+![Kiku](./assets/logo.png)

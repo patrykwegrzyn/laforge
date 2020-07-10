@@ -1,0 +1,57 @@
+{
+  "name": "laforge",
+  "description": "magic",
+  "version": "0.0.0",
+  "author": "patrykwegrzyn @patrykwegrzyn",
+  "bin": {
+    "laforge": "./bin/run"
+  },
+  "bugs": "https://github.com/patrykwegrzyn/laforge/issues",
+  "dependencies": {
+    "@oclif/command": "^1.7.0",
+    "@oclif/config": "^1.16.0",
+    "@oclif/plugin-help": "^3.1.0",
+    "git-last-commit": "^1.0.0"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.22.2",
+    "globby": "^10.0.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/src"
+  ],
+  "homepage": "https://github.com/patrykwegrzyn/laforge",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "laforge",
+    "plugins": [
+      "@oclif/plugin-help"
+    ],
+    "topics": {
+      "docker:build": {
+        "description": "manage favorite apps"
+      },
+      "config": {
+        "description": "manage heroku config variables"
+      }
+    }
+  },
+  "repository": "patrykwegrzyn/laforge",
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json",
+    "prepack": "oclif-dev manifest && oclif-dev readme",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
+  }
+}
