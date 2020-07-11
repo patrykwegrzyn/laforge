@@ -1,30 +1,39 @@
 
 const { Command, flags } = require('@oclif/command')
 
+const { imageName, exist, push } = require("../../lib/docker")
 const service = require("../../service")
-const { build, imageName } = require("../../lib/docker")
+
 const { registry } = service;
 
-class Build extends Command {
+class Push extends Command {
   async run() {
-    const { flags } = this.parse(Build)
-    let { name, context = "." } = flags
+    const { flags } = this.parse(Push)
+    let { name } = flags
     name = name || service.name
     const img = await imageName(registry, name, flags)
-    await build(img, context)
+
+    await exist(img)
+    this.log(`\nPushing ${img}\n`);
+    await push(img)
+
+  }
+
+  async catch(error) {
+    this.log(error.message.split("\n")[1])
+    throw error.message
   }
 }
 
-Build.description = `Describe the command here
+Push.description = `Describe the command here
 ...
       Extra documentation goes here
       `
 
-Build.flags = {
+Push.flags = {
   name: flags.string({ char: 'n', description: 'Name of Container image' }),
   tag: flags.string({ char: 't', description: 'Container tag' }),
   short: flags.boolean({ char: 's', description: "Provide short version of git commit hash" }),
-  context: flags.string({ char: "c", description: "Docker context default ." })
 }
 
-module.exports = Build
+module.exports = Push
