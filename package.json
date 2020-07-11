@@ -39,15 +39,7 @@
     "bin": "laforge",
     "plugins": [
       "@oclif/plugin-help"
-    ],
-    "topics": {
-      "docker:build": {
-        "description": "manage favorite apps"
-      },
-      "config": {
-        "description": "manage heroku config variables"
-      }
-    }
+    ]
   },
   "repository": "patrykwegrzyn/laforge",
   "scripts": {
