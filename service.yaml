@@ -1,6 +1,6 @@
 registry: rg.fr-par.scw.cloud/mindsettdev
 name: laforge
-protocol: TCP
+protocol: {{}}
 targetPort: 3000
 port: 80
 memory: 0.15G

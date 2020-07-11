@@ -2,7 +2,7 @@ const YAML = require('yamljs');
 
 console.log(process.env.root);
 
-const service = YAML.load('service.yaml')
+const service = YAML.load('.laforge.yaml')
 console.log("service", service)
 
 
