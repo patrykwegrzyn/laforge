@@ -3,7 +3,7 @@ const util = require("util")
 const { Command, flags } = require('@oclif/command')
 const { getLastCommit } = require("git-last-commit")
 
-const { execShellCommand } = require("../../utils")
+const { push, exist, imageName } = require("../../lib/docker")
 const service = require("../../service")
 
 const { registry } = service;
@@ -12,7 +12,6 @@ const lastCommit = util.promisify(getLastCommit)
 class Push extends Command {
   async run() {
     const { flags } = this.parse(Push)
-    console.log("Push -> run -> flags", flags)
     let { name, tag, short } = flags
     if (!name) {
       name = service.name
@@ -25,14 +24,12 @@ class Push extends Command {
       }
       tag = hash
     }
-    const img = `${registry}/${name}:${tag}`
+    const img = imageName(registry, name, tag);
 
-    console.log("Push -> run -> img", img)
-    const cmd = `docker push ${img}`
-    const res = await execShellCommand(cmd)
+    await exist(img)
+    const res = await push(img)
     this.log("Push -> run -> res", res)
 
-    this.log(`cmd ${cmd}`)
   }
 }
 
