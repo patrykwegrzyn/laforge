@@ -1,11 +1,8 @@
 const fs = require('fs');
+const YAML = require("json-to-pretty-yaml")
 const path = require("path")
 const handlebars = require("handlebars")
-function mkdir(dir) {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
-  }
-}
+
 
 function execShellCommand(cmd) {
   const exec = require('child_process').exec;
@@ -23,10 +20,23 @@ function execShellCommand(cmd) {
 }
 
 function template(type) {
-  const templateString = fs.readFileSync(path.join(process.env.PWD, `.laforge/templates/${type}.yaml`), "utf8")
+  const fpath = path.join(process.env.PWD, `.laforge/templates/${type}.yaml`)
+  const templateString = fs.readFileSync(fpath, "utf8")
   return handlebars.compile(templateString)
 }
 
+function jsonToYamlFile(path, json) {
+  const yamlStr = YAML.stringify(json)
+  console.log("path", path, "json", json, yamlStr)
+  fs.writeFileSync(path, yamlStr)
+}
+
+const templates = {
+  svc: require("./templates/svc.json"),
+  deployment: require("./templates/deployment.json")
+}
+
+exports.jsonToYamlFile = jsonToYamlFile;
 exports.template = template
-exports.mkdir = mkdir
+exports.templates = templates
 exports.execShellCommand = execShellCommand

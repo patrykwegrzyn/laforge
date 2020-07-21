@@ -1,0 +1,45 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "{{name}}"
+  },
+  "spec": {
+    "replicas": "{{replicas}}",
+    "template": {
+      "metadata": {
+        "creationTimestamp": null
+      },
+      "spec": {
+        "imagePullSecrets": [
+          {
+            "name": "{{imagePullSecret}}"
+          }
+        ],
+        "containers": [
+          {
+            "image": "{{image}}",
+            "imagePullPolicy": "Always",
+            "name": "{{name}}",
+            "resources": {
+              "limits": {
+                "memory": "{{max_memory}}",
+                "cpu": "{{max_cpu}}"
+              },
+              "requests": {
+                "memory": "{{memory}}",
+                "cpu": "{{cpu}}"
+              }
+            },
+            "ports": [
+              {
+                "containerPort": "{{nodePort}}",
+                "protocol": "{{protocol}}"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
